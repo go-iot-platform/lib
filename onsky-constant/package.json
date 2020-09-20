@@ -1,0 +1,22 @@
+{
+  "name": "onsky-constant",
+  "version": "1.0.7",
+  "description": "ONSKY Constant for nlp.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyencatpham/onsky-constant.git"
+  },
+  "keywords": [
+    "onsky-constant"
+  ],
+  "author": "nguyencatpham",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nguyencatpham/onsky-constant/issues"
+  },
+  "homepage": "https://github.com/nguyencatpham/onsky-constant#readme"
+}

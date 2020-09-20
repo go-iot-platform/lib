@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+import "validate/validate.proto";
+
+service ResourceSvc {
+	rpc RegisterService(RegisterInfoRequest) returns (ServiceInfoResponse) {}
+	rpc UpdateService(RegisterInfoRequest) returns (ServiceInfoResponse) {}
+	rpc GetServiceByShortName(ServiceByShortNameRequest) returns (ServiceInfoResponse) {}
+}
+
+message ServiceByShortNameRequest {
+    string ShortName = 1 [(validate.rules).string = {not_in: [""]}];
+}
+
+message RegisterInfoRequest {
+    string Name = 1 [(validate.rules).string = {not_in: [""]}];
+    string ShortName = 2 [(validate.rules).string = {not_in: [""]}];
+    string Description = 3 [(validate.rules).string = {not_in: [""]}];
+    bool IsCharge = 4;
+    repeated ResourceType Data = 5 [(validate.rules).repeated.min_items = 1];
+}
+
+message ResourceType {
+    string Name = 1 [(validate.rules).string = {not_in: [""]}];
+    string Description = 2;
+    repeated Action Data = 3 [(validate.rules).repeated.min_items = 1];
+}
+
+message Action {
+    string Name = 1 [(validate.rules).string = {not_in: [""]}];
+    string Type = 2 [(validate.rules).string = {in: ["Read", "Write", "List", "PermissionManagement"]}];    
+    string Description = 3;
+}
+
+message ServiceInfoResponse {
+    int32 Id = 1;
+    string CreatedAt = 2;
+    string UpdatedAt = 3;
+    string Name = 4;
+    string ShortName = 5;
+    string Version = 6;
+    string Description = 7;
+    bool IsActive = 8;
+    bool IsCharge = 9;
+    repeated ResourceType Data = 10;
+}

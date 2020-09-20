@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package aws_sns;
+
+import "github.com/micro/go-micro/api/proto/api.proto";
+
+
+service AWSSNS {
+    rpc Publish (PublishInput) returns (PublishOutput);
+    rpc Endpoint (CreateEndpointRequest) returns (CreateEndpointResponse);
+    rpc PublishAPI (go.api.Request) returns (go.api.Response);
+}
+
+message TargetARN {
+    string target = 1;
+    int32 device_type = 2;
+}
+
+message PublishInput {
+    string platform = 1;
+    string name = 2;
+    string subject = 3;
+    string message = 4;
+    repeated TargetARN target = 5;
+    string click_action = 6;
+}
+
+message PublishOutput {
+}
+
+message CreateEndpointRequest {
+    string token = 1;
+    int32 device_type = 2;
+}
+
+message CreateEndpointResponse {
+    string endpoint_arn = 1;
+}

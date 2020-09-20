@@ -1,0 +1,374 @@
+syntax = "proto3";
+
+import "github.com/micro/go-micro/api/proto/api.proto";
+import "validate/validate.proto";
+
+/*************************************** API *********************************************************/
+service Api {
+    rpc ListPoliciesAPI (go.api.Request) returns (go.api.Response);
+    rpc GetByPolicyAPI (go.api.Request) returns (go.api.Response);
+    rpc GetByUserAPI (go.api.Request) returns (go.api.Response);
+    rpc GetByGroupAPI (go.api.Request) returns (go.api.Response);
+    rpc CreatePolicyAPI (go.api.Request) returns (go.api.Response);
+    rpc UpdatePolicyAPI (go.api.Request) returns (go.api.Response);
+    rpc DeletePolicyAPI (go.api.Request) returns (go.api.Response);
+    rpc AttachPolicyToGroupAPI (go.api.Request) returns (go.api.Response);
+    rpc DetachPolicyFromGroupAPI (go.api.Request) returns (go.api.Response);
+    rpc AttachPolicyToUserAPI (go.api.Request) returns (go.api.Response);
+    rpc DetachPolicyFromUserAPI (go.api.Request) returns (go.api.Response);
+}
+/*************************************** SYSTEM POLICY *********************************************************/
+service System {
+    rpc BindSystemPolicy (BindSystemPolicyRequest) returns (BindResponse);
+    rpc BindUserPolicy (BindUserPolicyRequest) returns (BindResponse);
+    rpc GetSystemPolicies(GetSystemPoliciesRequest) returns (GetSystemPoliciesResponse);
+    rpc GetSystemPoliciesByUserId(UserIdRequest) returns (GetSystemPoliciesByUserIdResponse);
+    rpc GetSystemPolicyByName(PolicyNameRequest) returns (PolicyData);
+}
+
+/*************************************** GROUP POLICY *********************************************************/
+service Group {
+    rpc ListGroups (ListGroupRequest) returns (ListGroupResponse){};
+    rpc UpdateListUsersCacheByGroupId (GroupIdRequest) returns (ListUserResponse){};
+    rpc UpdateUserCacheInGroup (GroupIdRequest) returns (ListPoliciesResponse);
+}
+
+/*************************************** USER POLICY *********************************************************/
+
+service User {
+    rpc ListUsers (ListUserRequest) returns (ListUsersResponse){};
+}
+
+/***************************************  POLICY *********************************************************/
+
+service Policy{
+    // List all Policies
+    rpc ListPolicies (ListPoliciesRequest) returns (PoliciesResponse){};
+    rpc Resources (GetByResourceRequest) returns (GetByResourceResponse);
+    rpc Groups (GetByGroupRequest) returns (GetByGroupResponse);
+    rpc GetListPoliciesByUserId(UserIdRequest) returns (PoliciesResponse) {};
+    rpc GetPolicyByName(PolicyNameRequest) returns (PolicyData) {};
+    rpc CreatePolicy (CreatePolicyRequest) returns (CreatePolicyResponse);
+    rpc GetPolicyByPolicyId(PolicyIdRequest) returns (PolicyData) {};
+    rpc UpdatePolicyByPolicyId (UpdateInfoRequest) returns (PolicyData);
+    rpc DeletePolicy (DeletePolicyRequest) returns (DeletePolicyResponse);
+    rpc AttachPolicyToGroup (AttachPolicyRequest) returns (PoliciesResponse);
+    rpc DetachPolicyFromGroup (DetachPolicyRequest) returns (PoliciesResponse);
+    rpc AttachPolicyToUser (AttachPolicyToUserRequest) returns (PoliciesResponse);
+    rpc DetachPolicyFromUser (DetachPolicyFromUserRequest) returns (PoliciesResponse);
+}
+
+
+message PolicyIdRequest {
+    string PolicyId = 1 [(validate.rules).string.uuid = true];
+}
+
+message UpdateInfoRequest {
+    string PolicyId = 1 [(validate.rules).string.uuid = true];
+    string Name = 2 [(validate.rules).string = {not_in: [""]}];;
+    string Description = 3;
+    repeated ResourceTypes ResourceTypes = 4 [(validate.rules).repeated.min_items = 1];
+}
+
+message PolicyNameRequest {
+    string Name = 1 [(validate.rules).string = {not_in: [""]}];
+}
+
+message UserIdRequest {
+    string UserId = 1 [(validate.rules).string.uuid = true];
+} 
+
+// Policy data from database
+message PolicyData {
+
+    // PolicyID represent policy_id
+    string policyId = 1;
+    
+    // Customer number
+    string customer_number = 2;
+
+    // Policy's name
+    string name = 3;
+
+    // Policy's description
+    string description = 4;
+
+    // Policy's version
+    string version = 5;
+
+    // Policy's type
+    string type = 6;
+    
+    // Policy's Activation status
+    bool is_active = 7;
+
+    // Policy's resource types
+    repeated ResourceTypes resource_types = 8;
+}
+
+// Policy's resource type message
+message ResourceTypes {
+    string name = 1;
+    string effect = 2 [(validate.rules).string = {in: ["Allow", "Deny"]}];
+    repeated string actions = 3 [(validate.rules).repeated.min_items = 1];
+    repeated string resources = 4 [(validate.rules).repeated.min_items = 1];
+}
+
+message ListPoliciesRequest {
+    // Limit response data, limit gt 5
+    uint64 limit = 1 [(validate.rules).uint64.gte = 5];
+
+    // Skip to a position, skip gt 0
+    uint64 skip = 2 [(validate.rules).uint64.gte = 0 ];
+
+    // Keyword (optional)
+    string keyword = 3 [(validate.rules).string.max_bytes = 15 ];
+
+    // Default by created_at
+    string keysort = 7 [(validate.rules).string.max_bytes = 15 ];
+    
+    // Set data response ascending
+    bool is_asc = 4;
+
+    // Get active data only
+    string is_active = 5 [(validate.rules).string = {in: ["true", "false", ""]}];
+
+    enum Type {
+        ALL = 0;
+        SYSTEM = 1;
+        CUSTOMER_DEFINED = 2;
+        PRE_DEFIEND = 3;
+        TRIAL = 4;
+    }
+    // Get policy type
+    Type type = 6 [(validate.rules).enum.defined_only = true];
+}
+
+message PoliciesResponse {
+    // Total policy queried
+    int64 total_items = 1;
+    
+    // List of all Policy data
+    repeated PolicyData data = 2;
+}
+
+message HelloRequest {
+	string name = 1;
+}
+
+message HelloResponse {
+	string msg = 1;
+}
+
+message GetByResourceRequest {
+    // Resource types name
+    string resource_type = 1 [(validate.rules).string.pattern = "[0-9a-z]"];
+    // Resource type orn (policies ID)
+    string resource_orn = 2 [(validate.rules).string.pattern = "[0-9a-z]"];
+    // Resource type effect
+    string effect = 3 [(validate.rules).string = {in: ["allow", "deny"]}];
+}
+
+message GetByResourceData {
+    string policy_id = 1;
+    string name = 2;
+    string description = 3;
+    repeated ResourceTypes resource_types = 4;
+    repeated string users = 5;
+}
+message GetByResourceResponse {
+    repeated GetByResourceData data = 1;
+}
+
+message GetByGroupRequest {
+    // GroupIDs requested
+    string group_ids = 1 [(validate.rules).string.pattern = "[0-9a-z]"];
+}
+
+message GetByGroupResponse {
+    // Total policy queried
+    int64 total_items = 1;
+
+    // List of all Policy data
+    repeated PolicyData data = 2;
+}
+
+message CreatePolicyData {
+    string name = 1 [(validate.rules).string.pattern = "[0-9a-z]"];
+    string description = 2 [(validate.rules).string.pattern = "[0-9a-z]"];
+    repeated ResourceTypes resource_types = 3;
+}
+message CreatePolicyRequest {
+    string user_id = 1;
+    CreatePolicyData body = 2 [(validate.rules).message.required = true];
+}
+
+message CreatePolicyResponse {
+    bool success = 1;
+    string msg = 2;
+}
+
+message DeletePolicyRequest {
+    string policy_ids = 1 [(validate.rules).string.pattern = "[0-9a-z]"];
+}
+message DeletePolicyResponse {
+    bool success = 1;
+    string msg = 2;
+}
+
+message AttachPolicyRequest {
+    // Request list policy ids
+    string policy_ids = 1 [(validate.rules).string.pattern = "[0-9a-z]"];
+    // Group Id to attach
+    string group_id = 2 [(validate.rules).string.uuid = true];
+}
+
+message DetachPolicyRequest {
+    // Request list policy ids
+    string policy_ids = 1 [(validate.rules).string.pattern = "[0-9a-z]"];
+    // Group Id to attach
+    string group_id = 2 [(validate.rules).string.uuid = true];
+}
+
+message AttachPolicyToUserRequest {
+    // Request list policy ids
+    string policy_ids = 1 [(validate.rules).string.pattern = "[0-9a-z]"];
+    // User Id to attach
+    string user_id = 2 [(validate.rules).string.uuid = true];
+}
+
+message DetachPolicyFromUserRequest {
+    // Request list policy ids
+    string policy_ids = 1 [(validate.rules).string.pattern = "[0-9a-z]"];
+    // User Id to detach
+    string user_id = 2 [(validate.rules).string.uuid = true];
+}
+message ListUserRequest {
+    // Limit response data, limit gt 5
+    uint64 Limit = 1 [(validate.rules).uint64.gte = 5];
+    // Skip to a position, skip gt 0
+    uint64 Skip = 2 [(validate.rules).uint64.gte = 0 ];
+    // Keyword (optional)
+    string Keyword = 3 [(validate.rules).string.max_bytes = 15 ];
+    // Default by created_at
+    string Keysort = 4 [(validate.rules).string.max_bytes = 15 ];
+    // Set data response ascending
+    bool IsAsc = 5;
+    // Get active data only
+    string IsActive = 6 [(validate.rules).string = {in: ["true", "false", ""]}];
+    enum TypeData {
+        ALL = 0;
+        SYSTEM = 1;
+        CUSTOMER_DEFINED = 2;
+        PRE_DEFIEND = 3;
+        TRIAL = 4;
+    }
+    // Get policy type
+    TypeData Type = 7 [(validate.rules).enum.defined_only = true];
+}
+
+message ListUsersResponse {
+    // Total user queried
+    int64 TotalItems = 1;  
+    // List of all user data
+    repeated UserData Data = 2;
+}
+
+message BindSystemPolicyRequest {
+    string uuid = 1 [(validate.rules).string.uuid = true];
+}
+
+message BindResponse {
+    int64 code = 1;
+}
+
+message BindUserPolicyRequest {
+    string user_id = 1 [(validate.rules).string.uuid = true];
+    string policy_ids = 2;
+}
+message GetSystemPoliciesRequest {
+    // Limit response data, limit gt 5
+    uint64 Limit = 1 [(validate.rules).uint64.gte = 5];
+    // Skip to a position, skip gt 0
+    uint64 Skip = 2 [(validate.rules).uint64.gte = 0 ];
+    // Keyword (optional)
+    string Keyword = 3 [(validate.rules).string.max_bytes = 15 ];
+    // Default by created_at
+    string Keysort = 4 [(validate.rules).string.max_bytes = 15 ];
+    // Set data response ascending
+    bool IsAsc = 5;
+     // Get active data only
+    bool IsActive = 6;
+}
+
+message GetSystemPoliciesResponse {
+    int64 TotalItems = 1;
+    repeated PolicyData Data = 2;
+}
+
+message GetSystemPoliciesByUserIdResponse {
+    int64 TotalItems = 1;
+    repeated CachePolicyData Data = 2;
+}
+
+message CachePolicyData {
+    string PolicyId = 1;
+    repeated ResourceTypes ResourceTypes = 2;
+}
+
+message ListGroupRequest {
+    // Limit response data, limit gt 5
+    uint64 Limit = 1 [(validate.rules).uint64.gte = 5];
+    // Skip to a position, skip gt 0
+    uint64 Skip = 2 [(validate.rules).uint64.gte = 0 ];
+    // Keyword (optional)
+    string Keyword = 3 [(validate.rules).string.max_bytes = 15 ];
+    // Default by created_at
+    string Keysort = 4 [(validate.rules).string.max_bytes = 15 ];
+    // Set data response ascending
+    bool IsAsc = 5;
+    // Get active data only
+    string IsActive = 6 [(validate.rules).string = {in: ["true", "false", ""]}];
+    enum TypeData {
+        ALL = 0;
+        SYSTEM = 1;
+        CUSTOMER_DEFINED = 2;
+        PRE_DEFIEND = 3;
+        TRIAL = 4;
+    }
+    // Get policy type
+    TypeData Type = 7 [(validate.rules).enum.defined_only = true];
+}
+
+message ListGroupResponse {
+    // Total group queried
+    int64 TotalItems = 1;  
+    // List of all Group data
+    repeated GroupData Data = 2;
+}
+
+message GroupData {
+    string GroupId = 1;
+    repeated PolicyData Data = 2;
+}
+
+message GroupIdRequest {
+    string GroupId = 1 [(validate.rules).string.uuid = true];
+}
+
+message ListUserResponse {
+    // Total users queried
+    int64 TotalItems = 1;  
+    // List of all users data
+    repeated UserData Data = 2;
+}
+
+message UserData {
+    string UserId = 1;
+    repeated PolicyData Data = 2;
+}
+
+message ListPoliciesResponse {
+    int64 TotalItems = 1;
+    repeated PolicyData Data = 2;
+}

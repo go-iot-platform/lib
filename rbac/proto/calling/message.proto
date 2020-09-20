@@ -1,0 +1,178 @@
+syntax = "proto3";
+
+package calling;
+
+import "github.com/micro/go-micro/api/proto/api.proto";
+
+service SecurityCalling {
+  rpc UpdateCall(go.api.Request) returns(go.api.Response) { }
+  rpc UpdateMessage(go.api.Request) returns(go.api.Response) { }
+  rpc CallAndMessageStatistic (go.api.Request) returns (go.api.Response){ }
+}
+
+service SecurityCallingSvc {
+  // send notification request to call & sms
+  rpc SendRequest(CallingRequest) returns(CallingResponse) { }
+  // // handle security mode & safety mode
+  rpc StopCalling(ModeRequest) returns(Response) { }
+  // // get quota used by customer, client, gateway
+  rpc GetQuota(QuotaRequest) returns(QuotaResponse) { }
+  // // using voice api in another service can response XML content
+  // rpc Voice(VoiceRequest) returns(VoiceResponse) { }
+  // // update call status
+  //rpc UpdateCall(UpdateCallRequest) returns(Response) { }
+  // // update message status
+  //rpc UpdateMessage(UpdateMessageRequest) returns(Response) { }
+  //  | TODO: using graphQL
+  // // get notifications list
+  // rpc GetNotifications(CallingRequest) returns(CallingResponse) { }
+  // // get call list
+  // rpc GetCalls(CallingRequest) returns(CallingResponse) { }
+  // // get message list
+  // rpc GetMessages(CallingRequest) returns(CallingResponse) { }
+  // // get notification detail
+  rpc GetNotification(NotificationRequest) returns(NotificationResponse) { }
+  // // get call detail
+  // rpc GetCall(CallingRequest) returns(CallingResponse) { }
+  // // get message detail
+  // rpc GetMessage(CallingRequest) returns(CallingResponse) { }
+}
+message NotificationRequest {
+  string uuid = 1;
+}
+message NotificationResponse{
+  string created_at = 1;
+  int32 quota =2;
+  string thingDisplayName = 3;
+  string gatewayDisplayName = 4;
+  string zoneDisplayName = 5;
+  int32 securityType = 6;
+  int32 mode = 7;
+  int32 status =8;
+  string template = 9;
+  string gatewayMacAddress  =10;
+  string customerNumber = 11;
+  string canceledTime = 12;
+
+  int32 calling_total = 13;
+  int32 calling_complete = 14;
+  int32 message_total =15;
+  int32 message_complete = 16;
+  bool is_complete = 17;
+}
+message CallingRequest {
+  Thing thing = 1;
+  Thing gateway = 2;
+  Thing template = 3;
+  Thing zone = 4;
+  ClientConfig clientConfig = 5;
+  string customerNumber =6;
+  string macAddress =7; //real gateway?
+  int32 forceType = 8; // type = 0 default (onsky default security+safety calling), 1 : observer call,2: locus SOS
+  ClientConfig observerConfig = 9;
+}
+
+message Thing {
+  string	displayName = 1;
+  string name=2;
+  string serial =3;
+  repeated Property properties=4;
+  SimpleTemplate template =5;
+}
+message SimpleTemplate{
+  string name = 1;
+}
+message Property {
+  string name = 1;
+  string value = 2;
+}
+// client config
+message ClientConfig {
+  string alias = 1;
+  string customerNumber =2;
+  string email = 3;
+  Setting setting =4;
+
+  string address1 = 5;
+  string address2 = 6;
+  string firstName = 7;
+  string lastName = 8;
+  string mobile = 9;
+}
+message Setting {
+  int32 id =1;
+  bool isAllowRegister=2;
+  string other =3;
+}
+message  PhoneNumber  {
+  string phone = 1;
+  string locale = 2;
+  bool isMaster = 3;
+  bool isSmsEnabled = 4;
+  bool isCallEnabled = 5;
+  string timezone = 6;
+}
+// response
+message CallingResponse {
+  bool result = 1;
+  string errorMessage =2;
+  string error =3;
+}
+
+message ModeRequest {
+  string mode =1;
+  string gatewayMacAddress = 2;
+}
+message Response{
+  bool result = 1;
+  string error = 2;
+  string sid = 3;
+}
+message QuotaRequest{
+  string customerNumber = 1;
+}
+message QuotaResponse{
+  int32 quota = 1;
+  string customerNumber = 2;
+  string error = 3;
+}
+message VoiceRequest {
+  string securityType = 1;
+  string fileName = 2;
+}
+message VoiceResponse{
+string xml = 1;
+}
+message UpdateCallRequest{
+	string Sid             = 1;
+	string From            = 2;
+	string To              = 3;
+	string CallStatus      = 4;
+	string ErrorMessage    = 5;
+	string DateCreated     = 6;
+	string DateUpdated     = 7;
+	string StartTime       = 8;
+	string EndTime         = 9;
+	string Duration         = 10;
+	string ForwardedFrom   = 11;
+	string  Price           = 12;
+	string PriceUnit       = 13;
+	string NotificationID  = 14;
+	string CallID          = 15;
+	string CallerCountry   = 16;
+	string ToCountry       = 17;
+}
+message UpdateMessageRequest{
+	string Sid             = 1;
+	string From            = 2;
+	string To              = 3;
+	string Status          = 4;
+	string ErrorMessage    = 5;
+	string DateSent     = 6;
+  string DateUpdated     = 7;
+  string Segments = 8;
+	string  Price            = 9;
+	string PriceUnit       = 10;
+	string NotificationID       = 11;
+	string MessageID       = 12;
+}

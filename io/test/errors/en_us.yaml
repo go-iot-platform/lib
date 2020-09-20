@@ -1,0 +1,211 @@
+# service type : system
+# namespace : micro
+# service name : iot
+# func getThing
+# errorKey: invalidParams
+  - key: iot:generic:databaseProblem
+    text: "Please check your input params."
+
+  - key: iot:generic:cacheProblem
+    text: "Cache data problem, please check your input params."
+
+  - key: iot:generic:invalidParams
+    text: "invalid params! Please check your input params."
+
+  - key: iot:generic:notFound
+    text: "Not found."
+
+### alertTemplate
+  - key: iot:alertTemplate:alreadyExist
+    text: "Templatename is already exists."
+
+  - key: iot:alertTemplate:createProblem
+    text: "Create template failed! Please check your input params."
+
+  - key: iot:alertTemplate:listProblem
+    text: "List template is empty! Please check your input params."
+
+  - key: iot:alertTemplate:deleteProblem
+    text: "Can not delete template! Please check your input params."
+
+  - key: iot:alertTemplate:updateProblem
+    text: "Can not update template! Please check your input params."
+
+  - key: iot:alertTemplate:notFound
+    text: "Template does not found! Please check your input params."
+
+### certificate
+
+  - key: iot:certificate:createProblem
+    text: "Create certificate failed! Please check your input params."
+
+  - key: iot:certificate:listProblem
+    text: "List certificate is empty! Please check your input params."
+
+  - key: iot:certificate:deleteProblem
+    text: "Can not delete certificate! Please check your input params."
+
+  - key: iot:certificate:updateProblem
+    text: "Can not update certificate! Please check your input params."
+
+  - key: iot:certificate:notFound
+    text: "Certificate does not found! Please check your input params."
+
+### priority
+  - key: iot:priority:alreadyExist
+    text: "Priority Label is already exists."
+
+  - key: iot:priority:createProblem
+    text: "Create priority failed! Please check your input params."
+
+  - key: iot:priority:listProblem
+    text: "List priority is empty! Please check your input params."
+
+  - key: iot:priority:deleteProblem
+    text: "Can not delete priority! Please check your input params."
+
+  - key: iot:priority:updateProblem
+    text: "Can not update priority! Please check your input params."
+
+  - key: iot:priority:notFound
+    text: "Priority does not found! Please check your input params."
+
+### project
+  - key: iot:project:alreadyExist
+    text: "Project Label is already exists."
+
+  - key: iot:project:createProblem
+    text: "Create project failed! Please check your input params."
+
+  - key: iot:project:listProblem
+    text: "List project is empty! Please check your input params."
+
+  - key: iot:project:deleteProblem
+    text: "Can not delete project! Please check your input params."
+
+  - key: iot:project:updateProblem
+    text: "Can not update project! Please check your input params."
+
+  - key: iot:project:notFound
+    text: "Project does not found! Please check your input params."
+
+### thing
+  - key: iot:thing:alreadyExist
+    text: "Thing name is already exists."
+
+  - key: iot:thing:transactionProblem
+    text: "Failed to start transaction create thing"
+
+  - key: iot:thing:checkTemplateFailed
+    text: "Failed to check template when create thing"
+
+  - key: iot:thing:checkTemplateFailed
+    text: "Failed to check template when create thing"
+
+  - key: iot:thing:checkProjectFailed
+    text: "Failed to check project when create thing"
+
+  - key: iot:thing:genCertProblem
+    text: "Failed to gen cert when create thing"
+
+  - key: iot:thing:assignCertProblem
+    text: "Failed to assign cert when create thing"
+#--
+
+
+  - key: iot:thing:listProblem
+    text: "List thing is empty! Please check your input params."
+
+  - key: iot:thing:deleteProblem
+    text: "Can not delete thing! Please check your input params."
+
+  - key: iot:thing:updateProblem
+    text: "Can not update thing! Please check your input params."
+
+  - key: iot:thing:notFound
+    text: "Thing does not found! Please check your input params."
+
+  - key: iot:controlThing:invalidThing
+    text: "Thing is invalid."
+
+  - key: iot:controlThing:invalidTopic
+    text: "Invalid topic."
+
+### thingProperty
+  - key: iot:thingProperty:alreadyExist
+    text: "Thing property name is already exists."
+
+  - key: iot:thingProperty:createProblem
+    text: "Create thingProperty failed! Please check your input params."
+
+  - key: iot:thingProperty:listProblem
+    text: "List thingProperty is empty! Please check your input params."
+
+  - key: iot:thingProperty:deleteProblem
+    text: "Can not delete thingProperty! Please check your input params."
+
+  - key: iot:thingProperty:updateProblem
+    text: "Can not update thingProperty! Please check your input params."
+
+  - key: iot:thingProperty:notFound
+    text: "Thing property does not found! Please check your input params."
+
+### propertyAlert
+  - key: iot:propertyAlert:alreadyExist
+    text: "Property alert name is already exists."
+
+  - key: iot:propertyAlert:createProblem
+    text: "Create propertyAlert failed! Please check your input params."
+
+  - key: iot:propertyAlert:listProblem
+    text: "List propertyAlert is empty! Please check your input params."
+
+  - key: iot:propertyAlert:deleteProblem
+    text: "Can not delete propertyAlert! Please check your input params."
+
+  - key: iot:propertyAlert:updateProblem
+    text: "Can not update propertyAlert! Please check your input params."
+
+  - key: iot:propertyAlert:notFound
+    text: "Property alert does not found! Please check your input params."
+
+### thingTemplate
+  - key: iot:thingTemplate:alreadyExist
+    text: "Thing template name is already exists."
+
+  - key: iot:thingTemplate:createProblem
+    text: "Create thingTemplate failed! Please check your input params."
+
+  - key: iot:thingTemplate:listProblem
+    text: "List thingTemplate is empty! Please check your input params."
+
+  - key: iot:thingTemplate:deleteProblem
+    text: "Can not delete thingTemplate! Please check your input params."
+
+  - key: iot:thingTemplate:deleteProblemDue2Relation
+    text: "This template has a thing inherited. Please delete thing first!"
+
+  - key: iot:thingTemplate:updateProblem
+    text: "Can not update thingTemplate! Please check your input params."
+
+  - key: iot:thingTemplate:notFound
+    text: "Thing template does not found! Please check your input params."
+
+### propertyTemplate
+  - key: iot:propertyTemplate:alreadyExist
+    text: "Property template name is already exists."
+
+  - key: iot:propertyTemplate:createProblem
+    text: "Create propertyTemplate failed! Please check your input params."
+
+  - key: iot:propertyTemplate:listProblem
+    text: "List propertyTemplate is empty! Please check your input params."
+
+  - key: iot:propertyTemplate:deleteProblem
+    text: "Can not delete propertyTemplate! Please check your input params."
+
+  - key: iot:propertyTemplate:updateProblem
+    text: "Can not update propertyTemplate! Please check your input params."
+
+  - key: iot:propertyTemplate:notFound
+    text: "Property template does not found! Please check your input params."

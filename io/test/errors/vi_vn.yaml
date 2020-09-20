@@ -1,0 +1,10 @@
+# service type : system
+# namespace : micro
+# service name : iot
+# func getThing
+# errorKey: invalidParams
+  - key: iot:generic:databaseProblem
+    text: "Vui long kiem tra database."
+
+  - key: iot:generic:cacheProblem
+    text: "Loi cache."

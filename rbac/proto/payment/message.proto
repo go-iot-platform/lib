@@ -1,0 +1,287 @@
+syntax = "proto3";
+
+import "validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+import "github.com/micro/go-micro/api/proto/api.proto";
+import "google/protobuf/empty.proto";
+
+// **************************** CORE ****************************************
+service Core {
+    // payment api
+    rpc GetConfigAPI (go.api.Request) returns (go.api.Response);
+    // rpc Topup (go.api.Request) returns (go.api.Response);
+    rpc ChargeAPI (go.api.Request) returns (go.api.Response);
+    rpc CountFeeAPI (go.api.Request) returns (go.api.Response);
+    rpc RenewAPI (go.api.Request) returns (go.api.Response);
+    // transaction api
+    rpc GetTransactionHistoryAPI (go.api.Request) returns (go.api.Response);
+    // subscription api
+    rpc GetLastSubscriptionAPI (go.api.Request) returns (go.api.Response);
+    rpc GetListSubscriptionAPI (go.api.Request) returns (go.api.Response);
+    rpc PaymentSettingAPI (go.api.Request) returns (go.api.Response);
+    // wallet api
+    // rpc GetWallet (go.api.Request) returns (go.api.Response);
+    //Job runner
+    rpc JobRunnerAPI (go.api.Request) returns (go.api.Response);
+    rpc StatusRunnerAPI (go.api.Request) returns (go.api.Response);
+}
+
+// **************************** CORE SERVICE ****************************************
+service PaymentSrv {
+    rpc AddPaymentGateway (PaymentGatewayRequest) returns (MessageResponse);
+    rpc ListPaymentGateways (google.protobuf.Empty) returns (ListPaymentGatewaysResponse);
+    //rpc UpdatePaymentGateway (PaymentGatewayRequest) returns (MessageResponse);
+    rpc DeletePaymentGateway (UUIDRequest) returns (MessageResponse);
+    rpc GetPaymentGateway (UUIDRequest) returns (PaymentGatewayResponse);
+}
+
+// **************************** PACKAGE SERVICE ****************************************
+service Pkg {
+    rpc AddPackageAPI (go.api.Request) returns (go.api.Response);
+    rpc ListPackagesAPI (go.api.Request) returns (go.api.Response);
+    rpc UpdatePackageAPI (go.api.Request) returns (go.api.Response);
+    rpc DeletePackageAPI (go.api.Request) returns (go.api.Response);
+    rpc GetPackageAPI (go.api.Request) returns (go.api.Response);
+    // Region CRUD API
+    rpc RegionsAPI (go.api.Request) returns (go.api.Response);
+    rpc AddRegionAPI (go.api.Request) returns (go.api.Response);
+    rpc UpdateRegionAPI (go.api.Request) returns (go.api.Response);
+    rpc DeleteRegionAPI (go.api.Request) returns (go.api.Response);
+    rpc GetRegionAPI (go.api.Request) returns (go.api.Response);
+}
+
+service PkgSrv {
+    rpc GetPackageByUUID (GetPackagesRequest) returns (GetPackagesResponse);
+}
+
+// **************************** SUBSCRIPTION SERVICE ****************************************
+service Subscription {
+    rpc CreateSubscription (CreateSubRequest) returns (GetDetailResponse);
+    rpc GetSubscriptionDetail (GetDetailRequest) returns (GetDetailResponse);
+    rpc GetListSubscription (GetListRequest) returns (GetListResponse);
+    rpc GetLastSubscription (GetSubscriptionsRequest) returns (GetSubscriptionsResponse);
+    rpc UpdateSubscription (UpdateSubscriptionRequest) returns (UpdateSubscriptionResponse);
+}
+// **************************** TRANSACTION SERVICE ****************************************
+service Transaction {
+    rpc CreateTransactions (CreateTransactionRequest) returns (CreateTransactionResponse);
+    rpc GetTransaction (GetRequest) returns (GetResponse);
+    rpc GetTransactionHistory(GetTransactionHistoryRequest) returns (GetResponse);
+}
+// **************************** WALLET SERVICE ****************************************
+service WalletSrv {
+    rpc AddCoin (CoinRequest) returns (StatusCodeResponse){};
+    rpc SubtractCoin (CoinRequest) returns (StatusCodeResponse){};
+    rpc GetWalletInfo (GetWalletInfoRequest) returns (GetWalletInfoResponse);
+}
+
+message CoinRequest {
+    string CustomerNumber = 1;
+    uint64 Coin = 2;
+    string Currency = 3;
+}
+
+message StatusCodeResponse {
+    int64 Status = 1;
+}
+
+message GetWalletInfoRequest {
+   string customer_number = 1;
+   string currency = 2;
+}
+
+message GetWalletInfoResponse {
+    int64 status = 1;
+    string data = 2;
+}
+message CreateTransactionRequest {
+    uint64 amount = 1 [(validate.rules).uint64.gte = 0];
+    string currency_code = 2 [(validate.rules).string.len = 3];
+    string transaction_method = 3 [(validate.rules).string.min_len = 0];
+    string user_uuid = 4 [(validate.rules).string.uuid = true];
+    string customer_number = 5 [(validate.rules).string.min_len = 0];
+    string service = 6;
+    string metadata = 7;
+    string transaction_detail = 8;
+    string agent = 9;
+}
+
+message CreateTransactionResponse {
+    int64 code = 1;
+}
+
+message GetRequest {
+    string uuid = 1 [(validate.rules).string.uuid = true];
+}
+
+message GetResponse {
+    string data = 1;
+    int64 code = 2;
+}
+
+message GetTransactionHistoryRequest {
+    string customerNumber = 1;
+}
+message UpdateSubscriptionRequest {
+    string uuid = 1 [(validate.rules).string.uuid = true];
+    uint32 duration = 2;
+    uint32 status = 3;
+    google.protobuf.Timestamp charge_date = 4;
+}
+
+message UpdateSubscriptionResponse {
+    uint64 code = 1;
+}
+
+message CreateSubRequest {
+    string package_uuid = 1 [(validate.rules).string.uuid = true];
+    string customer_number = 2 [(validate.rules).string.min_len = 0];
+    string service = 3 [(validate.rules).string.min_len = 0];
+    uint32 duration = 4 [(validate.rules).uint32.gt = 0];
+    string promo_code = 5;
+}
+
+message CacheField {
+    string customer_number = 1 [(validate.rules).string.min_len = 0];
+    string service = 2;
+    string package_uuid = 3;
+}
+
+message GetDetailRequest {
+    oneof request{
+        option (validate.required) = true;
+        string uuid = 1 [(validate.rules).string.uuid = true];
+        CacheField field = 2;
+    }
+}
+
+message GetSubscriptionsRequest {
+    string package_uuid = 1 [(validate.rules).string.uuid = true];
+    string customer_number = 2;
+}
+
+message GetSubscriptionsResponse {
+    string data = 1;
+    int64 code = 2;
+}
+
+message GetDetailResponse {
+    google.protobuf.Timestamp start_date = 1;
+    google.protobuf.Timestamp end_date = 2;
+    string  package_id = 3;
+    uint32  type = 4;
+    // string  meta = 5;
+    uint32  duration = 5;
+    uint32  interval_time = 6;
+    uint32  quota = 7;
+    uint64  price = 8;
+    string  customer_number = 9;
+    // string  service = 11;
+    uint32  status = 10;
+    bool    have_trial_package = 11;
+    string  trial_duration = 12;
+    string  status_name = 13;
+    // string  token = 14;
+    // string card_customer_id = 15;
+    string uuid = 14;
+    google.protobuf.Timestamp charge_date = 15;
+}
+
+message GetListRequest {
+    string customer_number = 1 [(validate.rules).string.min_len = 0];
+}
+
+message ListResponse {
+    google.protobuf.Timestamp start_date = 1;
+    google.protobuf.Timestamp end_date = 2;
+    string  package_id = 3;
+    uint64  price = 4;
+    string  service = 5; 
+    uint32  status = 6;
+    string statusName = 7;
+    uint32  interval_time = 8;
+    google.protobuf.Timestamp charge_date = 9;
+}
+
+message GetListResponse {
+    repeated ListResponse data = 1;
+}
+message GetPackagesRequest {
+    string uuid = 1 [(validate.rules).string.uuid = true];
+    string promo_code = 2;
+}
+
+message Promotion {
+    string uuid = 1;
+    string title = 2;
+    string description = 3;
+    uint32 type = 4;
+    uint64 value = 5;
+    google.protobuf.Timestamp start_date = 6;
+    google.protobuf.Timestamp end_date = 7;
+    string meta = 8;
+}
+
+message GetPackagesResponse {
+    google.protobuf.Timestamp start_date = 1;
+    google.protobuf.Timestamp end_date = 2;
+    uint64 price = 3;
+    bool active = 4;
+    uint32 type = 5;
+    string customer_number = 6;
+    string meta = 7;
+    bool have_trial_package = 8;
+    string trial_duration = 9;
+    uint32 interval_time = 10;
+    uint32 quota = 11;
+    uint32 duration = 12;
+    string service_name = 13;
+    string currency = 14;
+    Promotion promotion = 15;
+}
+
+message UUIDRequest {
+    string uuid = 1;
+}
+
+message MessageResponse {
+    int64 statusCode = 1;
+}
+
+message PaymentGatewayRequest {
+    string name = 1;
+    string description = 2;
+    string methodName = 3;
+    uint32 methodType = 4;
+    string methodURL = 5;
+    bool active = 6; 
+    int32 http_type = 7;
+    repeated PaymentGatewayParam param = 8;
+}
+
+message PaymentGatewayResponse {
+    int64 id = 1;
+    string created_at = 2;
+    string updated_at = 3;
+    string uuid = 4;
+    string name = 5;
+    string description = 6;
+    string methodName = 7;
+    string methodType = 8;
+    string methodURL = 9;
+    bool active = 10;
+    string http_type = 11;
+    repeated PaymentGatewayParam param = 12;
+    //map<string, google.protobuf.Any> config = 11;
+}
+
+message PaymentGatewayParam {
+    string key = 1;
+    string value = 2;
+    string type = 3;
+}
+
+message ListPaymentGatewaysResponse {
+    repeated PaymentGatewayResponse data = 1;
+}
+
