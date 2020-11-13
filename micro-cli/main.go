@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	k8s "github.com/micro/examples/kubernetes/go/micro"
+	k8s "github.com/go-iot-platform/go-plugins/registry/kubernetes"
 	"github.com/micro/go-micro/client"
 	"github.com/go-iot-platform/lib/rbac/model"
 	"strings"
