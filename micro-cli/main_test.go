@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/go-iot-platform/rbac/model"
+	"github.com/go-iot-platform/lib/rbac/model"
 )
 
 func TestCall(t *testing.T) {

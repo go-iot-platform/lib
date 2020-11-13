@@ -5,7 +5,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/go-iot-platform/errors"
-	"github.com/go-iot-platform/rbac/model"
+	"github.com/go-iot-platform/lib/rbac/model"
 )
 
 // ServiceName Seperate Char

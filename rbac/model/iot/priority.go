@@ -1,6 +1,6 @@
 package iot
 
-import model "github.com/go-iot-platform/rbac/model"
+import model "github.com/go-iot-platform/lib/rbac/model"
 
 // Priority
 type Priority struct {

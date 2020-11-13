@@ -10,7 +10,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"github.com/go-iot-platform/errors"
 	"github.com/go-iot-platform/go-redis"
-	"github.com/go-iot-platform/rbac/model"
+	"github.com/go-iot-platform/lib/rbac/model"
 	"github.com/go-iot-platform/rbac/utl"
 	resourcehelper "github.com/go-iot-platform/resource-helper"
 )

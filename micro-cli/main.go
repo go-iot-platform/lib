@@ -6,7 +6,7 @@ import (
 	"fmt"
 	k8s "github.com/micro/examples/kubernetes/go/micro"
 	"github.com/micro/go-micro/client"
-	"github.com/go-iot-platform/rbac/model"
+	"github.com/go-iot-platform/lib/rbac/model"
 	"strings"
 )
 

@@ -1,7 +1,7 @@
 package policy
 
 import (
-	"github.com/go-iot-platform/rbac/model"
+	"github.com/go-iot-platform/lib/rbac/model"
 )
 
 // User represents service domain model

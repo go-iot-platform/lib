@@ -3,7 +3,7 @@ package payment
 import (
 	"time"
 
-	"github.com/go-iot-platform/rbac/model"
+	"github.com/go-iot-platform/lib/rbac/model"
 )
 
 type SubscriptionStatus uint8

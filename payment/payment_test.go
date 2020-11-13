@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-iot-platform/go-redis"
-	"github.com/go-iot-platform/rbac/model"
+	"github.com/go-iot-platform/lib/rbac/model"
 )
 
 // SubscriptionKey Seperate Char

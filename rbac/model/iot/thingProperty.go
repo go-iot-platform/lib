@@ -1,6 +1,6 @@
 package iot
 
-import model "github.com/go-iot-platform/rbac/model"
+import model "github.com/go-iot-platform/lib/rbac/model"
 
 // Datatype of a property of thing
 type DataType int8

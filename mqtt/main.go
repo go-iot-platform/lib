@@ -11,7 +11,7 @@ import (
 	"unicode"
 
 	MQTT "github.com/eclipse/paho.mqtt.golang"
-	"github.com/go-iot-platform/rbac/model"
+	"github.com/go-iot-platform/lib/rbac/model"
 	proto "github.com/go-iot-platform/rbac/proto/calling"
 	notifyProto "github.com/go-iot-platform/rbac/proto/simple-notification"
 )

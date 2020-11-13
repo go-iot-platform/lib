@@ -8,7 +8,7 @@ import (
 
 	"github.com/micro/go-micro/errors"
 	"github.com/go-iot-platform/go-redis"
-	"github.com/go-iot-platform/rbac/model"
+	"github.com/go-iot-platform/lib/rbac/model"
 )
 
 // ServiceName Seperate Char

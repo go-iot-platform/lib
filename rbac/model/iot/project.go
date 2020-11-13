@@ -1,7 +1,7 @@
 package iot
 
 import (
-	model "github.com/go-iot-platform/rbac/model"
+	model "github.com/go-iot-platform/lib/rbac/model"
 )
 
 // User represents user domain model

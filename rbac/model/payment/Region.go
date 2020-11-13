@@ -1,7 +1,7 @@
 package payment
 
 import (
-	"github.com/go-iot-platform/rbac/model"
+	"github.com/go-iot-platform/lib/rbac/model"
 )
 
 // Region represents region table.
