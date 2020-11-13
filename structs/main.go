@@ -7,7 +7,7 @@ import (
 
 	"github.com/mitchellh/mapstructure"
 	"github.com/go-iot-platform/lib/marshaller"
-	structs "github.com/go-iot-platform/lib/structs-fatih"
+	structs "github.com/go-iot-platform/structs-fatih"
 )
 
 // Merge receives two structs, and merges them excluding fields with tag name: `structs`, value "-"
