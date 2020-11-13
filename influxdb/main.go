@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/go-iot-platform/structs"
+	"github.com/go-iot-platform/lib/structs"
 
 	client "github.com/influxdata/influxdb1-client"
 )

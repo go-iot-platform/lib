@@ -68,7 +68,7 @@ Request handler requires [Go](https://golang.org/) v1.11+ to run.
 Install the package.
 
 ```sh
-$ go get github.com/go-iot-platform/structs
+$ go get github.com/go-iot-platform/lib/structs
 ```
 
 #### Kubernetes + Google Cloud

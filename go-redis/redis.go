@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
-	"github.com/go-iot-platform/marshaller"
-	"github.com/go-iot-platform/structs"
+	"github.com/go-iot-platform/lib/marshaller"
+	"github.com/go-iot-platform/lib/structs"
 	"github.com/vmihailenco/msgpack"
 )
 

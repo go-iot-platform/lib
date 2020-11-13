@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/go-iot-platform/structs"
+	"github.com/go-iot-platform/lib/structs"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
