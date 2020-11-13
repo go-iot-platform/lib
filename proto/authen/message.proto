@@ -3,6 +3,8 @@ syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 
+option go_package="authen;authen";
+
 service AuthenSvc {
 	rpc GetCustomer(CustomerRequest) returns (CustomerResponse) {}
 	rpc GetObserver(CustomerRequest) returns (CustomerResponse) {}

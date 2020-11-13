@@ -1,28 +1,15 @@
 syntax = "proto3";
 
-import "github.com/micro/go-micro/api/proto/api.proto";
-import "google/protobuf/wrappers.proto";
+package go.micro.srv.iot;
+option go_package="iot;iot";
 
 service IotSvc {
 	rpc GetGateway(ThingRequest) returns (ThingResponse) {}
 	rpc GetThing(ThingRequest) returns (ThingResponse) {}
 	rpc ExcuteTemplate(DataRequest) returns (DataResponse) {}
-	rpc Log(DataRequest) returns (DataResponse) {}
-	rpc LavieConfig(LavieConfigRequest) returns (DataResponse) {}
-
-    rpc GetDeviceMapFail (go.api.Request) returns (go.api.Response);
-	rpc CountThing (google.protobuf.StringValue) returns (google.protobuf.Int64Value);
 }
-message EmptyRequest {
-}
-
 message ThingRequest {
 	string serial = 1;
-}
-message LavieConfigRequest{
-	string customerNumber = 1;
-	int32 hrFrom =2;
-	int32 hrTo =3;
 }
 message ThingResponse {
 	string displayName = 1;
