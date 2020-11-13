@@ -1,6 +1,8 @@
 syntax = "proto3";
 
-import "github.com/micro/go-micro/api/proto/api.proto";
+import "github.com/go-iot-platform/lib/proto/api/message.proto";
+package go.micro.srv.twilio;
+option go_package="twilio;twilio";
 
 service CallingSvc {
     rpc SendCall(CallingRequest) returns(CallingResponse) { }

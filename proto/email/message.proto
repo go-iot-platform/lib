@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package go.micro.srv.email;
+option go_package="email;email";
 
 service EmailSvc {
     rpc Send(EmailRequest) returns(EmailResponse) { }

@@ -2,9 +2,11 @@ syntax = "proto3";
 
 import "validate/validate.proto";
 import "google/protobuf/timestamp.proto";
-import "github.com/micro/go-micro/api/proto/api.proto";
+import "github.com/go-iot-platform/lib/proto/api/message.proto";
 import "google/protobuf/empty.proto";
 
+package go.micro.api.payment;
+option go_package="payment;payment";
 // **************************** CORE ****************************************
 service Core {
     // payment api

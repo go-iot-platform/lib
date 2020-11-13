@@ -1,8 +1,10 @@
 syntax = "proto3";
 
-import "github.com/micro/go-micro/api/proto/api.proto";
+import "github.com/go-iot-platform/lib/proto/api/message.proto";
 import "validate/validate.proto";
 
+package go.micro.api.policy;
+option go_package="policy;policy";
 /*************************************** API *********************************************************/
 service Api {
     rpc ListPoliciesAPI (go.api.Request) returns (go.api.Response);

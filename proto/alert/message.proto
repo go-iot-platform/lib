@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-import "api/message.proto";
+import "github.com/go-iot-platform/lib/proto/api/message.proto";
+package go.micro.api.alert;
 option go_package="alert;alert";
 
 service AlertSrv {

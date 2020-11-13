@@ -1,5 +1,6 @@
 #!/bin/bash
 # Generate Micro pb files.
+# alert | api | authen | email | iot | payment | policy | resource | statistics | twilio
 echo "generating protoc for project $NAME"
 echo $GOPATH/pkg/mod
 protoc \
