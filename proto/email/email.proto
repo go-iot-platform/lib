@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package go.micro.srv.email;
+option go_package="github.com/go-iot-platform/lib/proto/email;email";
+
+service EmailSvc {
+    rpc Send(EmailRequest) returns(EmailResponse) { }
+}
+
+message EmailRequest {
+  string to = 1;
+  string cc = 2;
+  string toName = 3;
+  string subject =4;
+  string body=5;
+  string bcc = 6;
+  bool isHtml= 7;
+}
+
+message EmailResponse {
+  bool success =1;
+  string errorMessage =2;
+}

@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+import "github.com/go-iot-platform/lib/proto/api/api.proto";
+package go.micro.srv.twilio;
+option go_package="github.com/go-iot-platform/lib/proto/twilio;twilio";
+
+service CallingSvc {
+    rpc SendCall(CallingRequest) returns(CallingResponse) { }
+    rpc SendMessage(MessageRequest) returns(MessageResponse) { }
+    rpc GetCallBySid(GetCallRequest) returns(GetCallResponse) { }
+    rpc GetMessageBySid(GetCallRequest) returns(GetMessageResponse) { }
+
+    rpc SendCallAPI (go.api.Request) returns (go.api.Response);
+    rpc SendMessageAPI (go.api.Request) returns (go.api.Response);
+  }
+
+message CallingRequest {
+  string to = 1;
+  string urlMedia = 2;
+  string urlCallback = 3;
+  string notificationID =4;
+  string callID=5;
+  string callbackType=6;
+}
+message MessageRequest {
+  string to = 1;
+  string body = 2;
+  string urlCallback = 3;
+  string notificationID =4;
+  string messageID =5;
+  string callbackType=6;
+}
+message GetCallRequest {
+  string sid = 1;
+}
+message GetCallResponse {
+  int32 id = 1;
+  string createdAt = 2;
+  string updatedAt = 3;
+  string from = 4;
+  string to = 5;
+  string urlMedia = 6;
+  string errorMessage = 7;
+  string notificationID = 8;
+  string callID = 9;
+  string sid = 10;
+  string error=11;
+}
+message GetMessageResponse {
+  int32 id = 1;
+  string createdAt = 2;
+  string updatedAt = 3;
+  string from = 4;
+  string to = 5;
+  string body = 6;
+  string errorMessage = 7;
+  string notificationID = 8;
+  string messageID = 9;
+  string sid = 10;
+  string error=11;
+}
+message CallingResponse {
+  string sid =1;
+  string from =2;
+  string to =3;
+  string status =4;
+  string dateCreated =5;
+  string dateUpdated =6;
+  string startTime =7;
+  string endTime =8;
+  string duration = 9;
+  string forwardedFrom=10;
+  float  price =11;
+  string priceUnit=12;
+  string type=13;
+  string errorMessage=14;
+  string error=15;
+  string notificationID=16;
+  string callID=17;
+}
+
+message MessageResponse {
+  string sid =1;
+  string from =2;
+  string to =3;
+  string status =4;
+  string dateCreated =5;
+  string dateSent =6;
+  string dateUpdated =7;
+  string segments = 8;
+  float  price =9;
+  string priceUnit=10;
+  string type=11;
+  string errorMessage=12;
+  string body =13;
+  string error=14;
+  string notificationID=15;
+  string messageID=16;
+}

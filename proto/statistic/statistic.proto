@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "github.com/go-iot-platform/lib/proto/api/api.proto";
+package go.micro.api.statistic;
+option go_package="github.com/go-iot-platform/lib/proto/statistic;statistic";
+
+service SystemSvc {
+  rpc GetCallingActivating (go.api.Request) returns (go.api.Response);
+  rpc GetCountAPI (go.api.Request) returns (go.api.Response);
+  rpc GetMapDirectionAPI (go.api.Request) returns (go.api.Response);
+  rpc SendObserverEmailAPI (go.api.Request) returns (go.api.Response);
+  rpc GetChartData(go.api.Request) returns (go.api.Response);
+  rpc HistoryBySerial (go.api.Request) returns (go.api.Response);
+  rpc HeartRateStatistic (go.api.Request) returns (go.api.Response);
+  rpc SnoringStatistic (go.api.Request) returns (go.api.Response);
+  rpc SleepStatistic (go.api.Request) returns (go.api.Response);
+  rpc SleepMonthStatistic (go.api.Request) returns (go.api.Response);
+  rpc SleepWeekStatistic (go.api.Request) returns (go.api.Response);
+  rpc BedSensorLog (go.api.Request) returns (go.api.Response);
+  rpc TimeLine (go.api.Request) returns (go.api.Response);
+}
