@@ -4,8 +4,6 @@
 // 	protoc        v3.7.1
 // source: alert/message.proto
 
-// import "github.com/go-iot-platform/go-micro/api";
-
 package alert
 
 import (

@@ -2,7 +2,7 @@
 syntax = "proto3";
 
 package go.api;
-option go_package="api;api";
+option go_package="api.proto;api";
 
 message Pair {
 	string key = 1;

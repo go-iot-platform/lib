@@ -10,4 +10,4 @@ protoc \
 --micro_out=. \
 --go_out=. \
 --validate_out="lang=go:." \
-$NAME/message.proto
+$NAME/*.proto
