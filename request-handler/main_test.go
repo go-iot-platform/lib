@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	requestHandler "github.com/go-iot-platform/request-handler"
+	requestHandler "github.com/go-iot-platform/lib/request-handler"
 )
 
 type TestData struct {

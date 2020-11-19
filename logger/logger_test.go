@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/go-iot-platform/logger"
+	"github.com/go-iot-platform/lib/logger"
 )
 
 func TestContainer(t *testing.T) {
