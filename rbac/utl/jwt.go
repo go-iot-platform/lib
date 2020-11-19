@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/go-iot-platform/errors"
+	"github.com/go-iot-platform/lib/errors"
 	"github.com/go-iot-platform/lib/rbac/model"
 )
 

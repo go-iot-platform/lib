@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/micro/go-micro/errors"
-	"github.com/go-iot-platform/go-redis"
+	"github.com/go-iot-platform/lib/errors"
+	"github.com/go-iot-platform/lib/go-redis"
 	"github.com/go-iot-platform/lib/rbac/model"
 )
 

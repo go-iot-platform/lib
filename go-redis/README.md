@@ -1,8 +1,8 @@
 # Go-redis Helper
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://github.com/go-iot-platform/go-redis)
+[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://github.com/go-iot-platform/lib/go-redis)
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/go-iot-platform/go-redis)
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/go-iot-platform/lib/go-redis)
 
 Redis client for golang
 
@@ -62,7 +62,7 @@ Request handler requires [Go](https://golang.org/) v1.13+ to run.
 Install the package.
 
 ```sh
-$ go get -u github.com/go-iot-platform/go-redis
+$ go get -u github.com/go-iot-platform/lib/go-redis
 ```
 
 #### Kubernetes + Google Cloud

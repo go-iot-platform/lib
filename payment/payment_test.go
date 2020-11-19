@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-iot-platform/go-redis"
+	"github.com/go-iot-platform/lib/go-redis"
 	"github.com/go-iot-platform/lib/rbac/model"
 )
 

@@ -3,9 +3,9 @@ package authen
 import (
 	"testing"
 
-	"github.com/go-iot-platform/go-redis"
+	"github.com/go-iot-platform/lib/go-redis"
 	"github.com/go-iot-platform/lib/rbac/model"
-	resourcehelper "github.com/go-iot-platform/resource-helper"
+	resourcehelper "github.com/go-iot-platform/lib/resource-helper"
 )
 
 // UserCacheKey cache key for user

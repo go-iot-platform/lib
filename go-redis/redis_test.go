@@ -3,7 +3,7 @@ package redis_test
 import (
 	"fmt"
 	"github.com/eneoti/dockertest"
-	"github.com/go-iot-platform/go-redis"
+	"github.com/go-iot-platform/lib/go-redis"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"time"
