@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package go.micro.srv.logserial;
+option go_package="github.com/go-iot-platform/lib/proto/log-serial;logserial";
+
+service LogSerialSvc {
+	rpc Log(DataRequest) returns (DataResponse) {}
+	rpc LogHistory(DataRequest) returns (DataResponse) {}
+}
+
+message DataRequest {
+	string customerNumber = 1;
+	string thingName = 2;
+	string thingDisplayName = 3;
+	string thingSerial = 4;
+	string propertyName = 5;
+	int32 dataType = 6;
+	string value = 7;
+	int32 propertyId = 8;
+	int32 thingId = 9;
+	repeated AlertData alerts = 10;
+	int32 templateId = 11;
+	string templateName = 12;
+}
+
+message AlertData {
+	string name = 1;
+	string value = 2;
+	string settingValue = 3;
+	string alertModule = 4;
+	int32 status = 5;
+	int32 priorityId = 6;
+	repeated Trigger triggers = 7;
+}
+
+message Trigger {
+	string micro = 1;
+	string endpoint = 2;
+	string body = 3;
+	string params = 4;
+	string namespace = 5;
+}
+
+message DataResponse {
+	//repeated Content listContent = 1;
+	int64 statusCode = 1;
+}
+
+
+
+
